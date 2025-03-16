@@ -12,7 +12,7 @@ module.exports = {
 	name: 'banner',
 	aliases: [],
 	run: async (client, message, args, prefix, color) => {
-		let perm = ""
+		let perm = true
 		message.member.roles.cache.forEach(role => {
 			if (db.get(`modsp_${message.guild.id}_${role.id}`)) perm = true
 			if (db.get(`ownerp_${message.guild.id}_${role.id}`)) perm = true
