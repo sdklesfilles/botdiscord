@@ -31,13 +31,13 @@ module.exports = {
 
 			if (!targetUser) return message.channel.send("Tu dois mentionner un utilisateur ou répondre à son message.");
 
-			let roleName = args.slice(1).join(" ");
+			let roleName = args.slice(0).join(" ");
 			if (message.mentions.members.first()) {
-				roleName = args.slice(2).join(" ");
+				roleName = args.slice(1).join(" ");
 			}
 
 			let role = message.mentions.roles.first()
-			|| message.guild.roles.cache.get(args[1])
+			|| message.guild.roles.cache.get(args[0])
 			|| message.guild.roles.cache.find(r => r.name.toLowerCase() === roleName.toLowerCase());
 
 			if (!role) return message.channel.send(`Aucun rôle trouvé pour \`${roleName || "rien"}\``);
