@@ -19,29 +19,32 @@ module.exports = {
 			if (db.get(`admin_${message.guild.id}_${role.id}`)) perm = null
 		})
 		if (client.config.owner.includes(message.author.id) || db.get(`ownermd_${client.user.id}_${message.author.id}`) === true || perm) {
-			let rMember = message.mentions.members.first() || message.guild.members.cache.get(args[0])
-			if (!rMember) return
+			let rMember;
 
+			if (message.reference) {
 
+ 				const repliedMessage = await message.channel.messages.fetch(message.reference.messageId);
+  
+  				rMember = repliedMessage.mentions.members.first() || message.guild.members.cache.get(args[0]);
+  				if (!rMember && args.length > 0) {
+    					roleName = args.join(" ");
+    					rMember = message.guild.members.cache.get(args[0]);
+ 				}
+			} else {
 
-			let targetUser = message.mentions.members.first() ||
-			(await message.guild.members.fetch(message.reference?.messageId)
-			.catch(() => null)
-			.then(m => m?.author ? message.guild.members.cache.get(m.author.id) : null));
-
-			if (!targetUser) return message.channel.send("Tu dois mentionner un utilisateur ou répondre à son message.");
-
-			let roleName = args.slice(0).join(" ");
-			if (message.mentions.members.first()) {
-				roleName = args.slice(1).join(" ");
+  				rMember = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 			}
 
-			let role = message.mentions.roles.first()
-			|| message.guild.roles.cache.get(args[0])
-			|| message.guild.roles.cache.find(r => r.name.toLowerCase() === roleName.toLowerCase());
+			if (!rMember) {
+  				return message.channel.send("Aucun membre trouvé.");
+			}
+
+
+			let roleName = args.slice(rMember ? 1 : 0).join(" ");
+
+			let role = message.mentions.roles.first() || message.guild.roles.cache.find(r => r.name.toLowerCase() === roleName.toLowerCase());
 
 			if (!role) return message.channel.send(`Aucun rôle trouvé pour \`${roleName || "rien"}\``);
-
 			if (
 				(!client.config.owner.includes(message.author.id) && db.get(`ownermd_${client.user.id}_${message.author.id}`) === null) &&
 				(
