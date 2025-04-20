@@ -1,4 +1,5 @@
 const Discord = require('discord.js')
+var http = require('http');
 const client = new Discord.Client({
 	fetchAllMembers: true,
 	partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_PRESENCES', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES'],
@@ -62,3 +63,8 @@ const loadEvents = (dir = "./events/") => {
 
 loadEvents();
 loadCommands();
+
+http.createServer(function (req, res) {
+   res.write("I'm alive");
+   res.end();
+ }).listen(8080);
