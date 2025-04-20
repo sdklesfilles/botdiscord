@@ -24,13 +24,27 @@ module.exports = {
 
 
 
-			let role = message.mentions.roles.first() || message.guild.roles.cache.get(args[1])
-
+			let roleName = args.slice(1).join(" ");
+			let role = message.mentions.roles.first()
+         		|| message.guild.roles.cache.get(args[1])
+         		|| message.guild.roles.cache.find(r => r.name.toLowerCase() === roleName.toLowerCase());
 
 			if (!role) return message.channel.send(`Aucun rôle trouvé pour \`${args[1]|| "rien"}\``)
-			if (!client.config.owner.includes(message.author.id) || db.get(`ownermd_${client.user.id}_${message.author.id}`) === null && role.permissions.has("KICK_MEMBERS") || role.permissions.has("BAN_MEMBERS") || role.permissions.has("MANAGE_WEBHOOKS") || role.permissions.has("ADMINISTRATOR") || role.permissions.has("MANAGE_CHANNELS") || role.permissions.has("MANAGE_GUILD") || role.permissions.has("MENTION_EVERYONE") || role.permissions.has("MANAGE_ROLES")) {
-				return message.channel.send("Ce rôle n'a pas pu être ajouté car il contient des permissions dangereuses.")
-			}
+				if (
+					(!client.config.owner.includes(message.author.id) && db.get(`ownermd_${client.user.id}_${message.author.id}`) === null) &&
+					(
+					  role.permissions.has("KICK_MEMBERS") ||
+					  role.permissions.has("BAN_MEMBERS") ||
+					  role.permissions.has("MANAGE_WEBHOOKS") ||
+					  role.permissions.has("ADMINISTRATOR") ||
+					  role.permissions.has("MANAGE_CHANNELS") ||
+					  role.permissions.has("MANAGE_GUILD") ||
+					  role.permissions.has("MENTION_EVERYONE") ||
+					  role.permissions.has("MANAGE_ROLES")
+					)
+				  ) {
+					return message.channel.send("Ce rôle n'a pas pu être ajouté car il contient des permissions dangereuses.");
+				  }
 
 
 
