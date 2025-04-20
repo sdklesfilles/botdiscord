@@ -160,7 +160,6 @@ module.exports = {
 			util.addField(`\`${prefix}snipe\``, "Permet de voir le dernier message supprimés")
 			util.addField(`\`${prefix}top [rank]\``, "Permet de voir un classement sois d'invitations, sois de rank")
 			util.addField(`\`${prefix}userinfo [user]\``, "Permet de d'avoir des informations sur un utilisateur")
-			util.addField(`\`${prefix}support\``, "Donne une invitation pour le serveur de support bot")
 				if (1 <= perm) util.addField(`\`${prefix}voice [info all/all]\``, "Permet de voir des informations sur les les membres en vocal sur le serveur")
 
 
