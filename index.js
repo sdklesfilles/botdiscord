@@ -1,5 +1,4 @@
 const Discord = require('discord.js')
-const keep_alive = require('./keep_alive.js')
 const client = new Discord.Client({
 	fetchAllMembers: true,
 	partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_PRESENCES', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES'],
